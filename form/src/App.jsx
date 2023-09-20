@@ -1,8 +1,10 @@
+import { Form } from "./components/Form";
+
 function App() {
   return (
-    <>
-      <p>Hello</p>
-    </>
+    <div className="grid p-10">
+      <Form />
+    </div>
   );
 }
 
