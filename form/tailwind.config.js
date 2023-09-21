@@ -12,5 +12,6 @@ export default {
 
   daisyui: {
     themes: ["lofi"]
+  }
 }
 
