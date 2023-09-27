@@ -1,0 +1,1 @@
+<_io.TextIOWrapper name='myfile.txt' mode='r' encoding='cp1257'>
