@@ -11,8 +11,52 @@ export const Form = () => {
   const [feedback, setFeedback] = useState("");
   const [isSubmited, setIsSubmited] = useState(false);
 
+  let id = 2;
+
+  const fetchApi = async () => {
+    try {
+      const nameUrl = `http://127.0.0.1:5000/?table=A${id}&data=${name}`;
+      const subjectUrl = `http://127.0.0.1:5000/?table=B${id}&data=${subject}`;
+      const subjectRatingUrl = `http://127.0.0.1:5000/?table=C${id}&data=${subjectRating}`;
+      const lessonRatingUrl = `http://127.0.0.1:5000/?table=D${id}&data=${lessonRating}`;
+      const teacherRatingUrl = `http://127.0.0.1:5000/?table=E${id}&data=${teacherRating}`;
+      const feedbackUrl = `http://127.0.0.1:5000/?table=F${id}&data=${feedback}`;
+
+      const nameUrlRes = await fetch(nameUrl);
+      const subjectUrlRes = await fetch(subjectUrl);
+      const subjectRatingUrlRes = await fetch(subjectRatingUrl);
+      const lessonRatingUrlRes = await fetch(lessonRatingUrl);
+      const teacherRatingUrlRes = await fetch(teacherRatingUrl);
+      const feedbackUrlRes = await fetch(feedbackUrl);
+
+      nameUrl = await nameUrlRes.text();
+      subjectUrl = await subjectUrlRes.text();
+      subjectRatingUrl = await subjectRatingUrlRes.text();
+      lessonRatingUrl = await lessonRatingUrlRes.text();
+      teacherRatingUrl = await teacherRatingUrlRes.text();
+      feedbackUrl = await feedbackUrlRes.text();
+
+      console.log([
+        nameUrl,
+        subjectUrl,
+        subjectRatingUrl,
+        lessonRatingUrl,
+        teacherRatingUrl,
+        feedbackUrl,
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    try {
+      fetchApi();
+    } catch (error) {
+      throw new Error(error);
+    }
 
     setIsSubmited(true);
   };
@@ -34,13 +78,13 @@ export const Form = () => {
                 placeholder="Enter your name..."
                 className="input input-bordered w-full"
               />
-              <select className="select select-bordered w-full">
+              <select
+                onChange={(e) => setSubject(e.target.value)}
+                className="select select-bordered w-full"
+              >
                 {subjectList.map((subject) => {
                   return (
-                    <option
-                      onClick={() => setSubject(subject.title)}
-                      key={subject.id}
-                    >
+                    <option key={subject.id} value={subject.title}>
                       {subject.title}
                     </option>
                   );
